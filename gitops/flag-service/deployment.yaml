@@ -16,8 +16,8 @@ metadata:
   namespace: togglemaster
 type: Opaque
 data:
-  POSTGRES_PASSWORD: "Q0hBTkdFTUU="
-  DATABASE_URL: "Q0hBTkdFTUU="
+  POSTGRES_PASSWORD: "dG1fcGFzc18yNg=="
+  DATABASE_URL: "cG9zdGdyZXM6Ly90bV91c2VyOnRtX3Bhc3NfMjZAdG9nZ2xlbWFzdGVyLWZsYWctZGIuYzNiYnBrajNwY21rLnVzLWVhc3QtMS5yZHMuYW1hem9uYXdzLmNvbTo1NDMyL2ZsYWdfZGI="
 ---
 apiVersion: apps/v1
 kind: Deployment
