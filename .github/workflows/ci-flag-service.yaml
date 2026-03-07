@@ -155,4 +155,9 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add gitops/flag-service/deployment.yaml
           git commit -m "chore: update flag-service image to ${{ steps.meta.outputs.short_sha }}"
-          git push
+          # Retry loop to handle concurrent pushes from other service pipelines
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && break
+            echo "Push attempt $i failed, retrying in 5s..."
+            sleep 5
+          done
