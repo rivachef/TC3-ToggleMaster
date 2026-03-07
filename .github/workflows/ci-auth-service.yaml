@@ -130,7 +130,12 @@ jobs:
 
       - name: Push to ECR
         run: |
-          docker push ${{ secrets.ECR_REGISTRY }}/auth-service:${{ steps.meta.outputs.short_sha }}
+          # Skip push if image tag already exists (handles re-runs with immutable tags)
+          if aws ecr describe-images --repository-name auth-service --image-ids imageTag=${{ steps.meta.outputs.short_sha }} 2>/dev/null; then
+            echo "Image tag ${{ steps.meta.outputs.short_sha }} already exists in ECR, skipping push."
+          else
+            docker push ${{ secrets.ECR_REGISTRY }}/auth-service:${{ steps.meta.outputs.short_sha }}
+          fi
 
   update-gitops:
     name: Update GitOps Manifests
