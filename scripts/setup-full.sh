@@ -103,8 +103,30 @@ echo ">>> [4/8] Build e push de imagens Docker..."
 
 ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 ECR_REGISTRY="${ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com"
+GITHUB_REPO_URL=$(git -C "$PROJECT_DIR" remote get-url origin 2>/dev/null | sed 's|git@github.com:|https://github.com/|' | sed 's|\.git$||')
+GITHUB_USER=$(echo "$GITHUB_REPO_URL" | sed 's|https://github.com/||' | cut -d/ -f1)
 
 echo "  ECR Registry: $ECR_REGISTRY"
+echo "  GitHub User:  $GITHUB_USER"
+echo "  GitHub Repo:  $GITHUB_REPO_URL"
+
+# Substituir placeholders nos manifestos GitOps (ECR image URLs)
+echo "  Atualizando placeholders nos manifestos..."
+for svc in auth-service flag-service targeting-service evaluation-service analytics-service; do
+  DEPLOY_FILE="$PROJECT_DIR/gitops/$svc/deployment.yaml"
+  if grep -q '<AWS_ACCOUNT_ID>' "$DEPLOY_FILE" 2>/dev/null; then
+    sed -i.bak "s|<AWS_ACCOUNT_ID>|$ACCOUNT_ID|g" "$DEPLOY_FILE" && rm -f "$DEPLOY_FILE.bak"
+    echo "    [OK] $svc deployment.yaml atualizado"
+  fi
+done
+
+# Substituir placeholder no ArgoCD (GitHub repo URL)
+ARGOCD_FILE="$PROJECT_DIR/argocd/applications.yaml"
+if grep -q '<GITHUB_USER>' "$ARGOCD_FILE" 2>/dev/null; then
+  sed -i.bak "s|<GITHUB_USER>|$GITHUB_USER|g" "$ARGOCD_FILE" && rm -f "$ARGOCD_FILE.bak"
+  echo "    [OK] argocd/applications.yaml atualizado"
+fi
+echo ""
 
 # Login no ECR
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin "$ECR_REGISTRY"

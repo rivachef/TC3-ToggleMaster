@@ -4,6 +4,8 @@ Plataforma de Feature Flags com 5 microsservicos, infraestrutura automatizada vi
 
 **Repositorio:** [github.com/rivachef/TC3-ToggleMaster](https://github.com/rivachef/TC3-ToggleMaster)
 
+> **Nota:** Os manifestos em `gitops/` e `argocd/` usam placeholders (`<AWS_ACCOUNT_ID>`, `<GITHUB_USER>`) que sao substituidos automaticamente pelo script `setup-full.sh` durante o setup.
+
 ---
 
 ## Estrutura do Projeto
