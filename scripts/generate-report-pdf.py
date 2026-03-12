@@ -256,7 +256,7 @@ def generate_report():
     pdf.ln(5)
 
     pdf.subsection_title("Regras de Segurança (DevSecOps)")
-    pdf.bullet("SCA (Trivy): Bloqueia o pipeline se encontrar vulnerabilidades CRITICAL ou HIGH (exit-code: 1)")
+    pdf.bullet("SCA (Trivy): Bloqueia o pipeline se encontrar vulnerabilidades CRITICAL (exit-code: 1)")
     pdf.bullet("SAST (gosec/bandit): Executa análise estática com continue-on-error para não bloquear por falsos positivos")
     pdf.bullet("Container Scan (Trivy): Verifica a imagem Docker após build (exit-code: 0, informativo)")
     pdf.bullet("Permissões mínimas: contents: write apenas no job update-gitops (princípio de menor privilégio)")
@@ -292,8 +292,8 @@ def generate_report():
         ),
         (
             "CVEs CRITICAL em dependências Go",
-            "Trivy encontrou CVE-2024-45337 (CRITICAL) em golang.org/x/crypto v0.20.0 "
-            "e CVE-2025-22869 (HIGH), bloqueando o pipeline conforme regra DevSecOps.",
+            "Trivy encontrou CVE-2024-45337 (CRITICAL) em golang.org/x/crypto v0.20.0, "
+            "bloqueando o pipeline conforme regra DevSecOps.",
             "Upgrade de Go 1.21 para Go 1.23 em ambos os serviços Go, atualizando "
             "golang.org/x/crypto para v0.35.0 e golang.org/x/net para v0.33.0. "
             "Pipeline voltou a passar com zero vulnerabilidades CRITICAL."
