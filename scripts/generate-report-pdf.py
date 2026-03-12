@@ -171,7 +171,7 @@ def generate_report():
     pdf.cell(0, 7, "Vídeo de Apresentação:", new_x="LMARGIN", new_y="NEXT")
     pdf.set_font("Helvetica", "I", 10)
     pdf.set_text_color(128, 128, 128)
-    pdf.cell(0, 6, "(link a ser adicionado após a gravação)", new_x="LMARGIN", new_y="NEXT")
+    pdf.cell(0, 6, "https://drive.google.com/drive/folders/1ArwAm0wAv2JCtY_9Ri7GRv0qqWXig3Nu", new_x="LMARGIN", new_y="NEXT")
     pdf.ln(3)
 
     pdf.set_font("Helvetica", "B", 10)
